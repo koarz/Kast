@@ -3,7 +3,7 @@ add_rules("plugin.compile_commands.autoupdate", {outputdir = ".vscode"})
 set_languages("c++23")
 set_project("Kast")
 set_version("0.1")
-add_includedirs("src")
+add_includedirs("src", "thirdparty")
 set_toolchains("clang")
 
 if is_mode("asan") then
@@ -28,7 +28,7 @@ add_requires("replxx", "fmt 12.1.0", "spdlog v1.17.0")
 
 target("libkast")
     set_kind("static")
-    add_files("src/**.cpp|main.cpp")
+    add_files("src/**.cpp|main.cpp", "thirdparty/**.cpp")
     add_packages("replxx", "fmt", "spdlog")
 
 target("Kast")
