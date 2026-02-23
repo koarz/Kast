@@ -1,0 +1,19 @@
+BasedOnStyle: LLVM
+IndentWidth: 2
+UseTab: Never
+ColumnLimit: 80
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: false
+  AfterClass: false
+  AfterNamespace: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+BreakAfterAttributes: Always
+PointerAlignment: Right
+MaxEmptyLinesToKeep: 1
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
