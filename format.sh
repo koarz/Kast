@@ -24,7 +24,7 @@ fi
 
 mapfile -t files < <(
   git ls-files "*.c" "*.cc" "*.cpp" "*.cxx" "*.h" "*.hh" "*.hpp" "*.hxx" \
-    | grep -v '^src/clickhouse/'
+    | grep -v '^thirdparty/'
 )
 
 if [ ${#files[@]} -eq 0 ]; then
