@@ -1,4 +1,5 @@
 #include "common/Kast.hpp"
+
 #include "common/Logger.hpp"
 
 namespace kast {
