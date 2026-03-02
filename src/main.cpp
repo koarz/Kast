@@ -82,7 +82,9 @@ int main(int argc, char **argv) {
 
     if (input.ends_with(';')) {}
 
+    fmt::println("");
     fmt::println("You input: {}", input);
+    fmt::println("");
   }
   fmt::println("Bye.");
   return 0;
