@@ -6,6 +6,8 @@
 #include "parser/Keywords.hpp"
 #include "replxx.hxx"
 
+#include <chrono>
+
 int main(int argc, char **argv) {
   using namespace replxx;
   kast::Kast db;
@@ -62,30 +64,48 @@ int main(int argc, char **argv) {
                                         " | . \\ | (_| | \\__ \\ |_ \n"
                                         " |_|\\_\\ \\__,_| |___/\\__|\n");
   fmt::print(fmt::fg(fmt::color::gray), " Created by koarz. Version 0.1\n\n");
+  [&]() { // 这里使用lambda表达式方便快速退出嵌套循环
+    while (true) {
+      std::string query;
+      bool first_line = true;
 
-  std::string query;
-  while (true) {
-    char const *cinput = rx.input("Kast> ");
+      while (true) {
+        char const *cinput =
+            first_line ? rx.input("Kast> ") : rx.input("... > ");
+        if (cinput == nullptr) {
+          return;
+        }
+        std::string input(cinput);
+        if (input == "quit;") {
+          return;
+        }
+        if (input.empty() || input.starts_with("//"))
+          continue;
+        rx.history_add(input);
 
-    if (cinput == nullptr) {
-      break;
+        if (!query.empty())
+          query += ' ';
+        query += input;
+
+        if (!query.empty())
+          query += ' ';
+        query += input;
+
+        if (input.ends_with(';')) {
+          break;
+        }
+        first_line = false;
+      }
+      const auto start = std::chrono::steady_clock::now();
+      if (auto result = db.Execute(query); !result.success) {
+        fmt::println("{}", result.error_message);
+      }
+      const auto end = std::chrono::steady_clock::now();
+
+      const std::chrono::duration<double> diff = end - start;
+      fmt::println("\nTime : {:.5f}s\n", diff.count());
     }
-    std::string input(cinput);
-
-    if (input == "quit;") {
-      break;
-    }
-    if (input.empty())
-      continue;
-
-    rx.history_add(input);
-
-    if (input.ends_with(';')) {}
-
-    fmt::println("");
-    fmt::println("You input: {}", input);
-    fmt::println("");
-  }
+  }();
   fmt::println("Bye.");
   return 0;
 }
